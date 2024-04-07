@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-byp^c_l!$44rxl%36sgyuezo7&dr^224o2tukv=n2up+tl&pk0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.56.1']
 import crispy_forms
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

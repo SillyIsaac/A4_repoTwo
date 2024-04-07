@@ -72,19 +72,31 @@ def load_post_data_view(request, num_posts):
     return JsonResponse({'data':data[lower:upper], 'size': size})
 
 def post_detail_data_view(request, pk):
-     obj = Post.objects.get(pk=pk)
-     data = {
+    obj = Post.objects.get(pk=pk)
+    data = {
           'id': obj.id,
           'title': obj.title,
           'body': obj.body,
           'author':obj.author.user.username,
           'logged_in': request.user.username
-     }
-     return JsonResponse({'data': data})
+    }
+    return JsonResponse({'data': data})
 
-def like_unlike_post(request):
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        pk = request.POST.get('pk')
+# def like_unlike_post(request):
+#     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+#         pk = request.POST.get('pk')
+#         obj = Post.objects.get(pk=pk)
+#         if request.user in obj.liked.all():
+#             liked = False
+#             obj.liked.remove(request.user)
+#         else:
+#             liked = True
+#             obj.liked.add(request.user)
+#         return JsonResponse({'liked': liked, 'count': obj.like_count})
+
+def like_unlike_post(request, pk):
+    if request.method == 'POST':
+        #pk = request.POST.get('pk')
         obj = Post.objects.get(pk=pk)
         if request.user in obj.liked.all():
             liked = False
@@ -93,10 +105,22 @@ def like_unlike_post(request):
             liked = True
             obj.liked.add(request.user)
         return JsonResponse({'liked': liked, 'count': obj.like_count})
-    else:
-        # Handle non-AJAX requests
-        return JsonResponse({'error': 'This endpoint only accepts AJAX requests'}, status=400)
 
+def update_post(request, pk):
+    obj = Post.objects.get(pk=pk)
+    if request.method == 'POST':
+        new_title = request.POST.get('title')
+        new_body = request.POST.get('body')
+        obj.title = new_title
+        obj.body = new_body
+        obj.save()
+    return JsonResponse({
+        'title': new_title,
+        'body': new_body,
+    })
 
-def hello_world_view(request):
-            return JsonResponse({'text': 'hello world'})
+def delete_post(request, pk):
+    obj = Post.objects.get(pk=pk)
+    if request.method == 'POST':
+        obj.delete()
+    return JsonResponse({})
