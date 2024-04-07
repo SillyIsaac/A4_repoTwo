@@ -26,8 +26,9 @@ SECRET_KEY = 'django-insecure-byp^c_l!$44rxl%36sgyuezo7&dr^224o2tukv=n2up+tl&pk0
 DEBUG = True
 
 ALLOWED_HOSTS = []
+import crispy_forms
 
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,7 +43,9 @@ INSTALLED_APPS = [
     'posts',
     'profiles',
     'crispy_forms',
+    'crispy_bootstrap4',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'posts_proj.urls'
